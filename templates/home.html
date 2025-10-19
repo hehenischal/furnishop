@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Banner Slider -->
+    <div class="banner-section" style="background-color: #FEF6F0;">
+        <div class="container">
+            <div class="owl-carousel owl-theme banner-slider">
+                <div class="item"> 
+                    <div class="banner-item" style="background-image: url(/static/assets/images/banner/1.png)">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8 col-lg-6">
+                                    <div class="banner-content text-left">
+                                        <span class="mb-3 d-block">Top Selling!</span>
+                                        <h2>Best Collection Furniture</h2>
+                                        <a href="#" class="btn btn-primary uppercase mt-4">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="item"> 
+                    <div class="banner-item" style="background-image: url(/static/assets/images/banner/2.png)">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8 col-lg-6">
+                                    <div class="banner-content text-left">
+                                        <span class="mb-3 d-block">Top Selling!</span>
+                                        <h2>Best Collection Furniture</h2>
+                                        <a href="#" class="btn btn-primary uppercase mt-4">Shop Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Banner Slider -->
+
+    <!-- Categories Section -->
+    <div class="category-list">
+        <div class="container">
+            <div class="section-title">
+                <h2>Category</h2>
+            </div>
+             <div class="category-container">
+                <div class="owl-carousel category-slider">
+                    {% for cat in categories %}
+                    <div class="item"> 
+                        <div>
+                         <div class="category-hover">
+                            <a href="shop.html">
+                                <img src="/static/assets/images/category/{{cat.id}}.png" class="img-fluid" alt="{{cat.name}}"> 
+                            </a>
+                          </div>
+                          <a href="shop.html" class="d-block category-title">
+                            {{cat.name}}
+                        </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+             </div>
+        </div>
+    </div>
+    <!-- End Categories Section -->
+     
+    <!-- Product Section -->
+    <div class="product mt-100">
+        <div class="container">
+            <div>
+                <div class="section-title">
+                    <h2>Our Product</h2>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        {% for cat in categories %}
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link {% if forloop.first %}
+                              active
+                            {% endif %}" id="pills-{{cat.name}}-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-{{cat.name}}" type="button" role="tab" aria-controls="pills-{{cat.name}}"
+                                aria-selected="true">{{cat.name|capfirst}}</button>
+                        </li>
+                        {% endfor %}
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-all-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all"
+                                aria-selected="true">All</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content" id="pills-tabContent">
+                {% for cat in categories %}
+                <div class="tab-pane fade show {% if forloop.first %} active {% endif %}" id="pills-{{cat.name}}" role="tabpanel"  aria-labelledby="pills-{{cat.name}}-tab" tabindex="0">
+                    <div class="product">
+                        <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-2 mt-1">
+                                {% for product in cat.products.all %}
+                                  <div class="col">
+                                    {% include "components/card.html" with product=product %}
+                                </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="shop.html" class="btn btn-primary">View All</a>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="tab-pane fade show " id="pills-all" role="tabpanel"  aria-labelledby="pills-all-tab" tabindex="0">
+                    <div class="product">
+                        <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-2 mt-1">
+                                {% for product in products %}
+                                  <div class="col">
+                                    {% include "components/card.html" with product=product %}
+                                </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="shop.html" class="btn btn-primary">View All</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- Product Section End -->
+
+     <!-- Feature Section -->
+    <div class="feature-section mt-100">
+        <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="white-bg border px-4 py-3">
+                  <div class="row">
+                    <div class="mb-20 col-12 col-sm-12 col-md-6 col-lg-3">
+                      <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="/static/assets/images/icon/delivery-truck.png" class="w-100"  alt="truck Icon">
+                        </div>
+                        <div class="feature-info pt-3 ps-2">
+                            <h4>Free Shipping</h4>
+                            <p>On orders over&nbsp;<strong>$50.</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-20 col-12 col-sm-12 col-md-6 col-lg-3">
+                      <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="/static/assets/images/icon/loan.png" class="w-100"  alt="truck Icon">
+                        </div>
+                        <div class="feature-info pt-3 ps-2">
+                            <h4>Money Back</h4>
+                            <p>Money back in 7 days.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-20 col-12 col-sm-12 col-md-6 col-lg-3">
+                      <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="/static/assets/images/icon/credit-card.png" class="w-100"  alt="truck Icon">
+                        </div>
+                        <div class="feature-info pt-3 ps-2">
+                            <h4>Secure Checkout</h4>
+                            <p>100% Payment Secure.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-20 col-12 col-sm-12 col-md-6 col-lg-3">
+                      <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="/static/assets/images/icon/customer-service.png" class="w-100"  alt="truck Icon">
+                        </div>
+                        <div class="feature-info pt-3 ps-2">
+                            <h4>Online Support</h4>
+                            <p>Ensure the product quality</p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       </div>
+    <!-- Feature Section -->
+
+     <!-- Product Section -->
+     <div class="product mt-100">
+        <div class="container">
+            <div class="section-title">
+                <h2>New Arrivals</h2>
+            </div>
+            <div class="mt-0">
+                <div class="owl-carousel product-slider">
+                    {% for new in new_arrivals %}
+                    {% include "components/card.html" with product=new %}
+                    {% endfor %}
+               </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="shop.html" class="btn btn-primary">View All</a>
+            </div>
+        </div>
+      </div>
+     <!-- Product Section End -->
+{% endblock content %}

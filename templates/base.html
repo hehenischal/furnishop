@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furnishop</title>
+    <meta name="description" content="" >
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/font/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css' %}">
+    <!-- font-awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'assets/plugin/nice-select/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugin/nouislider/nouislider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/plugin/slick/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"  rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section Start -->
+    {% include "includes/header.html" %}
+    <!-- Header Section End -->
+     
+    {% block content %}
+    {% endblock content %}
+
+   <!-- footer Section -->
+   {% include "includes/footer.html" %}
+    <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/plugin/nice-select/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/plugin/nouislider/nouislider.min.js' %}"></script>
+    <script src="{% static 'assets/plugin/slick/slick.min.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

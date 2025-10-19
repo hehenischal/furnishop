@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+    <main>
+        <div class="breadcrumb-main">
+            <div class="container">
+                <div class="breadcrumb-container">
+                    <h2 class="page-title">Cart</h2>
+                    <ul class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a href="#">Home</a>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a href="#">Cart</a>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <!-- section-->
+        <div class="product-cart">
+            <!-- section -->
+            <section class="mt-5 mb-5">
+                <div class="container">
+                    <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-lg-10 col-md-12 col-sm-12 col-12">
+                            <div class="p-lg-5 p-md-0 p-sm-0 p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+											<thead>
+												<tr>
+													<td class="text-center">
+														Image
+													</td>
+													<td class="text-start">
+														Product Name
+													</td>
+													<td class="text-start">
+														Quantity
+													</td>
+													<td class="text-end">
+														Unit Price
+													</td>
+													<td class="text-end">
+														Total
+													</td>
+												</tr>
+											</thead>
+											<tbody>
+                                                {% for c in carts.all %}
+                                                <tr>
+													<td class="text-center">
+														<a href="#">
+															<img
+																src="{{c.product.images.first.image.url}}"
+																alt="{{c.product.images.first.image.alt_text}}"
+																title="Sofa"
+																width="80"
+																class="img-thumbnail"
+														/></a>
+													</td>
+													<td
+														class="text-start text-wrap">
+														<a href="#">{{c.product.name}} </a>
+													</td>
+													<td class="text-start">
+														<div
+															class="qty-container">
+                                                            <form action="{% url 'remove_from_cart' c.product.id %}" method="post">
+                                                                {% csrf_token %}
+															<button
+																class="qty-btn-minus count-decreament"
+																type="submit">
+																<i
+																	class="bi bi-dash"></i>
+															</button>
+                                                            </form>
+															<input
+                                                            readonly
+																type="number"
+																name="qty"
+																value="{{c.quantity}}"
+																class="input-qty input-cornered" />
+                                                            <form action="{% url 'add_to_cart' c.product.id %}" method="post">
+                                                                {% csrf_token %}
+															<button
+																class="qty-btn-plus count-increment"
+																type="submit">
+																<i
+																	class="bi bi-plus"></i>
+															</button>
+                                                            </form>
+
+														</div>
+													</td>
+													<td class="text-end">
+														{{c.product.price}}
+													</td>
+													<td class="text-end">
+														{{c.total_price}}
+													</td>
+												</tr>
+                                                {% endfor %}
+												
+											</tbody>
+											<tfoot id="checkout-total">
+												<tr>
+													<td
+														colspan="4"
+														class="text-end">
+														<strong>Total</strong>
+													</td>
+													<td class="text-end">
+                                                        Nrs. {{total_price}}
+													</td>
+												</tr>
+											</tfoot>
+										</table>
+                                </div>
+                                <div class="checkout-btn mt-5 d-flex justify-content-end">
+                                    <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg">Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock content %}
+  

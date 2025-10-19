@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Payment Successful</title>
+    <style>
+        :root {
+            --bg: #f6f8fb;
+            --card: #ffffff;
+            --accent: #2ea44f;
+            --muted: #6b7280;
+            --max-w: 720px;
+        }
+        html,body { height:100%; margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#111827; }
+        .wrap { min-height:100%; display:flex; align-items:center; justify-content:center; padding:48px 16px; }
+        .card {
+            width:100%; max-width:var(--max-w); background:var(--card); border-radius:12px; box-shadow:0 6px 30px rgba(16,24,40,0.08);
+            padding:32px; display:grid; gap:20px; align-items:start;
+        }
+        .header { display:flex; gap:20px; align-items:center; }
+        .badge {
+            width:72px; height:72px; border-radius:50%; display:grid; place-items:center; background:linear-gradient(180deg, rgba(46,164,79,0.12), rgba(46,164,79,0.06));
+            flex:0 0 72px;
+        }
+        .check { width:40px; height:40px; color:var(--accent); }
+        h1 { margin:0; font-size:20px; line-height:1.15; }
+        p.lead { margin:0; color:var(--muted); }
+        .details { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:6px;}
+        .kv { min-width:140px; flex:1 1 220px; }
+        .k { display:block; font-size:12px; color:var(--muted); }
+        .v { font-weight:600; margin-top:4px; }
+        .actions { display:flex; gap:12px; margin-top:12px; }
+        .btn {
+            display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:8px; font-weight:600; text-decoration:none;
+            border:1px solid transparent; cursor:pointer;
+        }
+        .btn-primary { background:var(--accent); color:#fff; box-shadow:0 6px 18px rgba(46,164,79,0.18); }
+        .btn-ghost { background:transparent; color:#111827; border-color:#e6e9ee; }
+        .muted-note { color:var(--muted); font-size:13px; margin-top:6px; }
+        .receipt { border-top:1px dashed #eef2f7; padding-top:16px; margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+        @media (max-width:520px) {
+            .header { flex-direction:column; align-items:flex-start; gap:12px; }
+            .badge { width:64px; height:64px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap" role="main">
+        <section class="card" role="status" aria-live="polite">
+            <div class="header">
+                <div class="badge" aria-hidden="true">
+                    <svg class="check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-opacity="0.12" stroke-width="2"/>
+                        <path d="M7.5 12.5l2.5 2.5 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div>
+                    <h1>Payment successful</h1>
+                    <p class="lead">Thank you — your payment has been processed. A receipt has been sent to your email.</p>
+                    <div class="muted-note">If you have questions, contact support@yourdomain.example</div>
+                </div>
+            </div>
+
+            <div class="details" aria-hidden="false">
+                <div class="kv">
+                    <span class="k">Order ID</span>
+                    <span class="v" id="order-id">{{ORDER_ID}}</span>
+                </div>
+                <div class="kv">
+                    <span class="k">Amount</span>
+                    <span class="v" id="amount">{{AMOUNT}}</span>
+                </div>
+                <div class="kv">
+                    <span class="k">Payment method</span>
+                    <span class="v" id="method">{{PAYMENT_METHOD}}</span>
+                </div>
+                <div class="kv">
+                    <span class="k">Date</span>
+                    <span class="v" id="date">{{DATE}}</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="{{RECEIPT_URL}}" class="btn btn-primary" id="view-receipt">View receipt</a>
+                <button class="btn btn-ghost" id="print-btn" type="button">Print receipt</button>
+                <a href="/" class="btn" id="continue">Continue shopping</a>
+            </div>
+
+            <div class="receipt" aria-hidden="true">
+                <div style="font-size:13px; color:var(--muted);">Need this later? Save or print your receipt.</div>
+                <div style="font-size:13px; color:var(--muted);">Reference: <strong id="ref">{{REFERENCE}}</strong></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Replace placeholders if values are passed from a global JS object `PAYMENT_DATA`.
+        (function () {
+            if (window.PAYMENT_DATA && typeof window.PAYMENT_DATA === 'object') {
+                document.getElementById('order-id').textContent = PAYMENT_DATA.orderId || '—';
+                document.getElementById('amount').textContent = PAYMENT_DATA.amount || '—';
+                document.getElementById('method').textContent = PAYMENT_DATA.method || '—';
+                document.getElementById('date').textContent = PAYMENT_DATA.date || new Date().toLocaleString();
+                document.getElementById('ref').textContent = PAYMENT_DATA.reference || '—';
+                var receiptLink = document.querySelector('a[href="{{RECEIPT_URL}}"]');
+                if (receiptLink && PAYMENT_DATA.receiptUrl) receiptLink.href = PAYMENT_DATA.receiptUrl;
+            }
+            document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
+        })();
+    </script>
+</body>
+</html>

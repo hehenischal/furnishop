@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+    <div class="product-details">
+        <main>
+            <div class="breadcrumb-main">
+                <div class="container">
+                    <div class="breadcrumb-container">
+                        <h2 class="page-title">{{product.name}}</h2>
+                        <ul class="breadcrumb">
+                          <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                          </li>
+                          <li class="breadcrumb-item">
+                            <a href="#">{{product.name}}</a>
+                          </li>
+                        </ul>
+                      </div>
+                </div>
+            </div>
+            
+            <section class="mt-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-5 col-xl-5">
+                            <div class="zoom border rounded" id="product-img-zoom" data-zoom-image="./assets/images/product/1.png">
+                                <img src="{{ product.images.first.image.url }}" class="w-100 rounded" alt="{{product.images.first.alt_text}}">
+                            </div>
+                            <div class="px-5">
+                                <div class="product-tools mt-1 position-relative" >
+                                    <div class="thumbnails row g-3 slider-nav px-3" id="productThumbnails" aria-label="Carousel Pagination">
+                                        {% for img in product.images.all %}
+                                            <div class="col-3 ms-2">
+                                            <div class="thumbnails-img border rounded">
+                                                <img src="{{ img.image.url }}" class="w-100 rounded" alt="{{img.alt_text}}">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-7 col-xl-7">
+                            <div class="ps-lg-10 mt-5 mt-md-0">
+                                <div class="mb-3 d-flex">
+                                      <div class="rating-review-count">
+                                        <small class="text-warning">
+                                            {% for i in "12345" %}
+                                                {% if forloop.counter <= rating %}
+                                                <i class="bi bi-star-fill"></i>
+                                                    
+                                                {% else %}
+                                            <i class="bi bi-star"></i>  
+                                                {% endif %}
+                                                {% endfor %}
+
+                                            
+                                        </small>
+                                        <a href="#" class="ms-2">({{ratings.count}} reviews)</a>
+                                      </div>
+                                       <div class="wishlist-action">
+                                        <a class="mx-3" href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Wishlist"
+                                        data-bs-original-title="Wishlist"><i class="bi bi-heart"></i></a>
+                                       </div>
+                                </div>
+                                <div class="product-title-name">
+                                    <h1 class="mb-2">{{ product.name|capfirst }}</h1>
+                                </div>
+                                <div class="fs-4 mt-2">
+                                    <span class="fw-bold text-dark">${{ product.price }}</span>
+                                    <span class="text-muted"><s>${{ product.pre_discount_price }}</s></span>
+                                </div>
+                                <hr class="my-3">
+                                <div>
+                                    <!-- table -->
+                                    <table class="table table-borderless mb-0 p-0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="p-1">SKU:</td>
+                                                <td class="p-1">554578787</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-1">Availability:</td>
+                                                <td class="p-1">{{product.stock}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-1">Type:</td>
+                                                <td class="p-1">{{product.category}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-1">Shipping:</td>
+                                                <td class="p-1">Free shipping</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr class="my-3">
+                                <div class="product-action row">
+                                     <div class="col-12 col-sm-6  col-md-6 col-lg-6">
+                                         <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                            {% csrf_token %}
+                                        <ul class="d-flex list-unstyled justify-content-between">
+                                            <li>
+                                                <div class="qty-container">
+                                                    <button class="qty-btn-minus count-decreament" type="button"><i
+                                                            class="bi bi-dash"></i></button>
+                                                    <input type="number" name="qty" value="1"
+                                                        class="input-qty input-cornered" />
+                                                    <button class="qty-btn-plus count-increament" type="button"><i
+                                                            class="bi bi-plus"></i></button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-bag me-2"></i>Add to cart</button>
+                                            </li>
+                                        </ul>
+                                        </form>
+                                        <div>
+                                            <a href="checkout.html" class="btn btn-secondary w-100"><i class="bi bi-lightning-charge-fill me-2"></i>Buy Now</a>
+                                        </div>
+                                     </div>
+                                </div>
+                                <hr class="mt-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="mt-50">
+                <div class="container">
+                    <div class="product-detail-review">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-pills nav-lb-tab" id="myTab" role="tablist">
+                                    <!-- nav item -->
+                                    <li class="nav-item" role="presentation">
+                                        <!-- btn -->
+                                        <button class="nav-link active" id="product-tab" data-bs-toggle="tab"
+                                            data-bs-target="#product-tab-pane" type="button" role="tab"
+                                            aria-controls="product-tab-pane" aria-selected="true">
+                                            Product Details
+                                        </button>
+                                    </li>
+                                    <!-- nav item -->
+                                    <li class="nav-item" role="presentation">
+                                        <!-- btn -->
+                                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab"
+                                            data-bs-target="#reviews-tab-pane" type="button" role="tab"
+                                            aria-controls="reviews-tab-pane" aria-selected="false" tabindex="-1">
+                                            Reviews
+                                        </button>
+                                    </li>
+
+                                </ul>
+                                <!-- tab content -->
+                                <div class="tab-content" id="myTabContent">
+                                    <!-- tab pane -->
+                                    <div class="tab-pane fade show active" id="product-tab-pane" role="tabpanel"
+                                        aria-labelledby="product-tab" tabindex="0">
+                                        <div class="my-4">
+                                            {{product.description|safe}}
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel"
+                                        aria-labelledby="reviews-tab" tabindex="0">
+                                        <div class="my-4">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-5">
+                                                        <div class="d-flex border-bottom pb-2 mb-2">
+                                                            <div>
+                                                                <h6 class="mb-1">Devid1</h6>
+                                                                <p class="small">
+                                                                    <span class="text-muted">01 January 2000</span>
+                                                                    <span
+                                                                        class="text-primary ms-3 fw-bold">Verified</span>
+                                                                </p>
+                                                                <div class="mb-2">
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                </div>
+                                                                <p>
+                                                                    Nice Product
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="mb-0">
+                                                        <div class="d-flex">
+                                                            <div>
+                                                                <h6 class="mb-1">Devid2</h6>
+                                                                <p class="small">
+                                                                    <span class="text-muted">01 January 2000</span>
+                                                                    <span
+                                                                        class="text-primary ms-3 fw-bold">Verified</span>
+                                                                </p>
+                                                                <div class="mb-2">
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                                    <i class="bi bi-star-half text-warning"></i>
+                                                                </div>
+                                                                <p>
+                                                                    Nice Product
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="my-5">
+                <div class="container">
+                    <div class="related-product">
+                        <div class="row">
+                            <div class="col-12">
+                                <div>
+                                    <h3>Related Items</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product mt-3">
+                            <div class="owl-carousel product-slider related-product-slider">
+                                {% for item in product.category.products.all %}
+                                <div class="card product-card me-3">
+                                    <a href="shop-single.html">
+                                        <img src="{{ product.images.first.image.url }}" class="w-100 rounded" alt="{{product.images.first.alt_text}}">
+                                    </a>
+                                    <div class="card-body pt-0">
+                                        <div class="icons">
+                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                                                <i class="bi bi-heart"></i> 
+                                            </a>
+                                        </div>
+                                        <span class="discount-badge">10% OFF</span>
+                                    </div>
+                                    <div class="product-price px-3 pb-2">
+                                        <h5 class="card-title"><a href="shop-single.html">
+                                            {{ item.name|capfirst }}
+                                        </a>
+                                    </h5>
+                                        <div class="mb-2">
+                                            <small class="text-warning">
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-half"></i>
+                                            </small>
+                                        </div>
+                                        <div class="d-block">
+                                            <span class="sell-price">{{item.price}}</span>
+                                            <span class="text-muted strike-through"><s>{{item.pre_discount_price}}</s></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-block mb-2">
+                                        <div class="d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-between px-2">
+                                            <a href="cart.html" class="btn btn-primary  mb-2 mb-lg-0">Add to Cart</a>
+                                            <a href="checkout.html" class="btn btn-secondary ms-lg-1">Buy Now</a>
+                                        </div>    
+                                    </div>
+                                </div>{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+{% endblock content %}

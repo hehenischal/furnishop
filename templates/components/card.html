@@ -1,0 +1,46 @@
+<div class="card product-card mx-2 mb-3">
+	<a href="shop-single.html">
+		{% for image in product.images.all %}
+		<img
+			src="{{image.image.url}}"
+			class="card-img-top"
+			style="max-width: 210px; height: auto"
+			alt="{{image.alt_text}}" />
+		{% endfor %}
+	</a>
+
+	<div class="product-price px-3 pb-2">
+		<h5 class="card-title">
+			<a href="shop-single.html"> {{product.name|capfirst}} </a>
+		</h5>
+		<div class="mb-2">
+			<small class="text-warning">
+				<i class="bi bi-star-fill"></i>
+				<i class="bi bi-star-fill"></i>
+				<i class="bi bi-star-fill"></i>
+				<i class="bi bi-star-fill"></i>
+				<i class="bi bi-star-half"></i>
+			</small>
+		</div>
+		<div class="d-block">
+			<span class="sell-price">{{product.price}}</span>
+			<span class="text-muted strike-through"
+				><s>{{product.pre_discount_price}}</s></span
+			>
+		</div>
+	</div>
+	<div class="d-block mb-2">
+		<div
+			class="d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-between px-2">
+			<form method="post" action="{% url 'add_to_cart' product.id %}">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-primary mb-2 mb-lg-0">
+					Add to Cart
+				</button>
+			</form>
+			<a href="checkout.html" class="btn btn-secondary ms-lg-1"
+				>Buy Now</a
+			>
+		</div>
+	</div>
+</div>
